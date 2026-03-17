@@ -1,0 +1,102 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv.*
+
+# Virtual Environment
+hybrid_recsys/
+.conda/
+.python-version
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files (CRITICAL - DO NOT COMMIT LARGE FILES)
+data/raw/
+data/processed/
+data/external/
+*.parquet
+*.csv
+*.csv.gz
+*.json
+*.jsonl
+*.jsonl.gz
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.db
+*.sqlite
+*.sqlite3
+
+# Model files
+models/
+*.pkl
+*.joblib
+
+# Logs
+logs/
+*.log
+
+# Local development
+.env
+.env.local
+.env.*.local
+config/local.yaml
+
+# Docker
+*.pid
+docker-compose.override.yml
+
+# Test outputs
+htmlcov/
+.pytest_cache/
+.coverage
+.coverage.*
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# MkDocs documentation
+/site
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# Project specific
+notebooks/
+reports/
+*.db
