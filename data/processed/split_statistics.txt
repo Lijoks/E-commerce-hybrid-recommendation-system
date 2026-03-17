@@ -1,9 +1,0 @@
-Train/Test Split Statistics
-========================================
-train_interactions: 222,703
-train_users: 33,963
-train_items: 25,938
-test_interactions: 6,624
-test_users: 6,624
-test_items: 4,182
-shared_users: 6,624
