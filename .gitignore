@@ -1,8 +1,10 @@
-﻿# Data files - ALL of them
+﻿# Data files - BLOCK EVERYTHING
 data/
 *.csv
+*.csv.gz
 *.json
 *.jsonl
+*.jsonl.gz
 *.parquet
 *.pkl
 *.pickle
@@ -10,36 +12,38 @@ data/
 *.hdf5
 *.db
 *.sqlite
+*.backup
+*.bak
 *.zip
 *.tar
 *.gz
 *.rar
 
-# Backups
-*.backup
-*.bak
-
-# Model files (if you want to keep them, use Git LFS instead)
+# Model files
 models/
 *.pkl
 *.joblib
 
 # Python cache
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*.class
+*.so
+.Python
 
 # Virtual environment
 venv/
 hybrid_recsys/
 .env
-*.egg-info/
+ENV/
+env/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*~
 
 # OS
 .DS_Store
