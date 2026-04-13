@@ -10,6 +10,7 @@ from typing import List, Optional
 import logging
 import time
 from datetime import datetime
+from prometheus_fastapi_instrumentator import Instrumentator
 
 # Setup logging
 logging.basicConfig(
@@ -26,8 +27,10 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+# basic monitoring
+Instrumentator().instrument(app).expose(app)
 
-# Add CORS middleware
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

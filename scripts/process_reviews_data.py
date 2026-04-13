@@ -18,7 +18,7 @@ class ChunkedReviewProcessor:
         self.all_interactions = []    # Store paths to chunk files, not data
 
     def load_product_catalog(self):
-        """Load your product catalog (this one is fine to load fully)."""
+        """Load your product catalog ."""
         logger.info("=" * 60)
         logger.info("Loading Product Catalog")
         logger.info("=" * 60)

@@ -1,6 +1,7 @@
 # frontend.py - Streamlit frontend for the recommender
 import streamlit as st
 import requests
+import os
 import pandas as pd
 from PIL import Image
 from io import BytesIO
@@ -44,7 +45,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # API configuration
-API_URL = "http://localhost:8000"
+API_URL = os.environ.get('API_URL', 'http://localhost:8000')
 
 def get_recommendations(user_id, n_recommendations=10):
     """Get recommendations from the API."""

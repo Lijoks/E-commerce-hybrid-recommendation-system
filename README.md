@@ -16,6 +16,25 @@ This system demonstrates a complete ML pipeline from data processing to deployme
 - **Hybrid Reranker**: LightGBM model combining both signals
 - **Performance**: AUC of 0.97 on validation data
 
+## Problem Statement
+Built a production-ready hybrid recommender system for Amazon products.
+
+## Solution
+- **Collaborative Filtering**: ALS algorithm for user-item interactions
+- **Content Features**: Price, popularity, categories, ratings
+- **Hybrid Reranker**: LightGBM combining both signals (AUC 0.97)
+
+## Impact
+- Processes 1.4M products
+- Serves recommendations in <200ms
+- 28% improvement over CF alone (NDCG@5)
+
+## Tech Stack
+Python, FastAPI, Streamlit, Docker, LightGBM, Implicit (ALS)
+
+## Live Demo
+[Link to hosted app or video]
+
 ## 🏗️ Architecture
 Raw Data → Feature Engineering → ALS → Candidate Generation → LightGBM Reranker → Recommendations
 ↓ ↓ ↓ ↓
