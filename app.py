@@ -131,16 +131,54 @@ async def load_models():
         else:
             logger.warning("Reranker model not found, using CF only")
         
-        # Load product data for titles and metadata
-        product_path = raw_dir / "amazon_products.csv"
-        if product_path.exists():
-            logger.info(f"Loading product data from {product_path}")
-            product_data = pd.read_csv(product_path)
-            product_data = product_data.set_index('asin')[['title', 'category_id', 'price', 'stars']]
+        # =============================================
+        # SMART DATA LOADING WITH FALLBACK FOR VERCEL
+        # =============================================
+        
+        # Try full product data first
+        full_product_path = raw_dir / "amazon_products.csv"
+        sampled_product_path = raw_dir / "amazon_products_sampled.csv"
+        
+        # Check if we're on Vercel (file size limit is 50MB)
+        use_full_data = False
+        data_source = None
+        
+        if full_product_path.exists():
+            file_size_mb = full_product_path.stat().st_size / (1024 * 1024)
+            
+            # If file is under 50MB or we're not on Vercel, use full data
+            if file_size_mb < 50:
+                use_full_data = True
+                data_source = full_product_path
+                logger.info(f"✅ Full product data file is {file_size_mb:.1f}MB - using full dataset")
+            else:
+                logger.warning(f"⚠️ Full product data is {file_size_mb:.1f}MB (exceeds Vercel's 50MB limit)")
+                
+                # Try sampled data as fallback
+                if sampled_product_path.exists():
+                    data_source = sampled_product_path
+                    sampled_size_mb = sampled_product_path.stat().st_size / (1024 * 1024)
+                    logger.info(f"📊 Using sampled data instead: {sampled_product_path} ({sampled_size_mb:.1f}MB)")
+                else:
+                    logger.warning("❌ No sampled data found. Please run scripts/create_sampled_data.py")
+        else:
+            # Full data doesn't exist, try sampled
+            if sampled_product_path.exists():
+                data_source = sampled_product_path
+                sampled_size_mb = sampled_product_path.stat().st_size / (1024 * 1024)
+                logger.info(f"📊 Full data not found, using sampled data: {sampled_product_path} ({sampled_size_mb:.1f}MB)")
+            else:
+                logger.warning("❌ No product data found! API will have limited functionality.")
+        
+        # Load the selected data file
+        if data_source:
+            logger.info(f"Loading product data from {data_source}")
+            product_data_full = pd.read_csv(data_source)
+            product_data = product_data_full.set_index('asin')[['title', 'category_id', 'price', 'stars']]
             logger.info(f"✅ Product data loaded: {len(product_data):,} products")
         else:
-            logger.warning(f"Product data not found at {product_path}")
             product_data = pd.DataFrame()
+            logger.warning("⚠️ No product data available. Recommendations will have limited information.")
         
     except Exception as e:
         logger.error(f"Failed to load models: {e}")
@@ -324,6 +362,7 @@ async def debug_paths():
         "cf_model_exists": (data_dir / "cf_model.pkl").exists(),
         "reranker_exists": (data_dir / "full_reranker_model.pkl").exists(),
         "product_data_exists": (raw_dir / "amazon_products.csv").exists(),
+        "sampled_data_exists": (raw_dir / "amazon_products_sampled.csv").exists(),
         "data_processed_files": [f.name for f in data_dir.glob("*")] if data_dir.exists() else [],
         "current_directory": str(Path.cwd())
     }
