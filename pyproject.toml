@@ -1,4 +1,3 @@
-# pyproject.toml
 [project]
 name = "ecommerce-recommender"
 version = "1.0.0"
@@ -9,9 +8,10 @@ dependencies = [
     "uvicorn[standard]==0.24.0",
     "pydantic==2.4.2",
     "pandas==2.0.3",
-    "numpy==1.24.3",
+    "numpy==1.26.0",           
     "implicit==0.7.2",
     "lightgbm==4.1.0",
     "scikit-learn==1.3.0",
-    "python-multipart==0.0.6"
+    "python-multipart==0.0.6",
+    "scipy==1.11.4"            
 ]
