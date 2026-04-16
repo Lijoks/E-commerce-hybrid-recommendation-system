@@ -10,7 +10,6 @@ from typing import List, Optional
 import logging
 import time
 from datetime import datetime
-from prometheus_fastapi_instrumentator import Instrumentator
 
 # Setup logging
 logging.basicConfig(
@@ -18,6 +17,16 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
+
+# With this (try-except for Vercel compatibility):
+try:
+    from prometheus_fastapi_instrumentator import Instrumentator
+    HAS_PROMETHEUS = True
+except ImportError:
+    HAS_PROMETHEUS = False
+    logger.warning("Prometheus not available - metrics disabled")
+
 
 # Initialize FastAPI
 app = FastAPI(
@@ -28,7 +37,11 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 # basic monitoring
-Instrumentator().instrument(app).expose(app)
+if HAS_PROMETHEUS:
+    Instrumentator().instrument(app).expose(app)
+    logger.info("Prometheus metrics enabled")
+else:
+    logger.info("Prometheus metrics disabled (running on Vercel)")
 
 # CORS middleware
 app.add_middleware(
