@@ -5,7 +5,6 @@
       "src": "app.py",
       "use": "@vercel/python",
       "config": {
-        "pythonVersion": "3.12",
         "installCommand": "pip install -r requirements.txt"
       }
     }
