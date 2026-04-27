@@ -19,7 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# With this (try-except for Vercel compatibility):
+# (try-except for Vercel compatibility):
 try:
     from prometheus_fastapi_instrumentator import Instrumentator
     HAS_PROMETHEUS = True
@@ -46,13 +46,13 @@ else:
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://e-commerce-hybrid-recommendation-system-a5dezhhwbqxa3tgzfpfeb4.streamlit.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Pydantic models (updated for V2 compatibility)
+# Pydantic models 
 class RecommendRequest(BaseModel):
     user_id: str
     n_recommendations: int = 10
